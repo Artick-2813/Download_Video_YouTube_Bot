@@ -1,7 +1,7 @@
 import telebot
 from config import TOKEN
 from Keyboard_Bot import menu_markup, cancel_markup, back_menu_markup, quality_menu
-from Download_Handler import download_video
+from Download_Handler import DownloadVideoFromYouTube
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -20,39 +20,59 @@ def download_video_url(call):
 
         @bot.message_handler(content_types=['text'])
         def get_url(msg):
+
             global save_url
+            global title_video
+
             save_url = msg.text
+            title_video = DownloadVideoFromYouTube(save_url).get_title_video()
+
             bot.send_message(chat_id=msg.chat.id, text='Выберите качество видео', reply_markup=quality_menu())
 
-        @bot.callback_query_handler(func=lambda call: call.data == '720p' or call.data == '480p')
-        def get_quality(call):
+        @bot.callback_query_handler(func=lambda call: call.data == '720p')
+        def get_quality_720(call):
+
             if call.data == '720p':
+
                 save_quality = call.data
                 call_msg = call.message.chat.id
 
                 bot.send_message(chat_id=call_msg, text='Подождите пожалуйста, видео загружается 🕜')
-                upload_my_video = download_video(save_url, save_quality)
+                upload_my_video = DownloadVideoFromYouTube(save_url).download_video_720p(save_quality)
                 bot.answer_callback_query(callback_query_id=call.id)
                 bot.send_message(chat_id=call_msg, text=upload_my_video, reply_markup=back_menu_markup())
 
-            if call.data == '480p':
+        @bot.callback_query_handler(func=lambda call: call.data == '360p')
+        def get_quality_360(call):
+
+            if call.data == '360p':
                 save_quality = call.data
                 call_msg = call.message.chat.id
 
                 bot.send_message(chat_id=call_msg, text='Подождите пожалуйста, видео загружается 🕜')
-                upload_my_video = download_video(save_url, save_quality)
+                upload_my_video = DownloadVideoFromYouTube(save_url).download_video_360p(save_quality)
                 bot.answer_callback_query(callback_query_id=call.id)
                 bot.send_message(chat_id=call_msg, text=upload_my_video, reply_markup=back_menu_markup())
-            else:
-                bot.answer_callback_query(callback_query_id=call.id, text='Упс, возникла какая-то ошибка 😔',
-                                          show_alert=True)
+
+        @bot.callback_query_handler(func=lambda call: call.data == '144p')
+        def get_quality_144(call):
+
+            if call.data == '144p':
+                save_quality = call.data
+                call_msg = call.message.chat.id
+
+                bot.send_message(chat_id=call_msg, text='Подождите пожалуйста, видео загружается 🕜')
+                upload_my_video = DownloadVideoFromYouTube(save_url).download_video_144p(save_quality)
+                bot.answer_callback_query(callback_query_id=call.id)
+                bot.send_message(chat_id=call_msg, text=upload_my_video, reply_markup=back_menu_markup())
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'Загрузка')
 def download_video_url(call):
 
     if call.data == 'Загрузка':
-        bot.send_message(call.message.chat.id, 'Загрузите видеофайл и я скачаю видео в телеграмм', reply_markup=cancel_markup())
+        bot.send_message(call.message.chat.id, 'Загрузите видеофайл и я скачаю видео в Телеграмм',
+                         reply_markup=cancel_markup())
         bot.answer_callback_query(callback_query_id=call.id)
 
         @bot.message_handler(content_types=['video'])
@@ -61,7 +81,7 @@ def download_video_url(call):
                 video_id = msg.video.file_id
                 my_chat_id = msg.chat.id
 
-                bot.send_video(data=video_id, chat_id=my_chat_id)
+                bot.send_video(data=video_id, chat_id=my_chat_id, caption=title_video)
 
                 bot.send_message(my_chat_id, 'Видео загружено ✅', reply_markup=back_menu_markup())
             except Exception as ex:
