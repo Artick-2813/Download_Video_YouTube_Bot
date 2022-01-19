@@ -25,7 +25,8 @@ def back_menu_markup():
 
 def quality_menu():
     btn_quality_720 = InlineKeyboardButton('720p', callback_data='720p')
-    btn_quality_480 = InlineKeyboardButton('480p', callback_data='480p')
-    quality = InlineKeyboardMarkup(row_width=2).add(btn_quality_720, btn_quality_480)
+    btn_quality_360 = InlineKeyboardButton('360p', callback_data='360p')
+    btn_quality_144 = InlineKeyboardButton('144p', callback_data='144p')
+    quality = InlineKeyboardMarkup(row_width=2).add(btn_quality_720, btn_quality_360, btn_quality_144)
 
     return quality
