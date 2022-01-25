@@ -4,7 +4,10 @@ from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 def menu_markup():
     btn_download_video_url = InlineKeyboardButton('Скачать видео по URL 📽', callback_data='Скачать видео')
     btn_download_video_id = InlineKeyboardButton('Загрузка видео 📩', callback_data='Загрузка')
-    menu = InlineKeyboardMarkup(row_width=2).add(btn_download_video_url, btn_download_video_id,)
+    btn_download_audio_url = InlineKeyboardButton('Загрузка аудио по URL 💽', callback_data='Загрузка аудио')
+    btn_download_audio_id = InlineKeyboardButton('Загрузка аудио', callback_data='Загрузка аудио по id')
+    menu = InlineKeyboardMarkup(row_width=2).add(btn_download_video_url, btn_download_video_id,
+                                                 btn_download_audio_url, btn_download_audio_id)
 
     return menu
 

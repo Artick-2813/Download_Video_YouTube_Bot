@@ -35,7 +35,7 @@ class DownloadVideoFromYouTube:
             stream.download(output_path=PATH)
             return 'Видео загружено ✅'
         else:
-            return 'Вы выбрали неправильное разрешение видео ❗'
+            return 'Такого разрешения нет ❗'
 
     def download_video_360p(self, quality):
         url = self.url
@@ -47,7 +47,7 @@ class DownloadVideoFromYouTube:
             stream.download(output_path=PATH)
             return 'Видео загружено ✅'
         else:
-            return 'Вы выбрали неправильное разрешение видео ❗'
+            return 'Такого разрешения нет ❗'
 
     def download_video_144p(self, quality):
         url = self.url
@@ -59,4 +59,26 @@ class DownloadVideoFromYouTube:
             stream.download(output_path=PATH)
             return 'Видео загружено ✅'
         else:
-            return 'Вы выбрали неправильное разрешение видео ❗'
+            return 'Такого разрешения нет ❗'
+
+
+url = 'https://www.youtube.com/watch?v=VKxOJ3DtsAU'
+
+
+class DownloadAudioFromYouTube:
+
+    def __init__(self, url):
+        self.url = url
+
+    def download_audio(self):
+        try:
+            url = self.url
+            yt = YouTube(url)
+            PATH = r'C:\Users\Admin\Desktop\Download_video'
+
+            audio = yt.streams.filter(only_audio=True)
+            audio[0].download(output_path=PATH)
+            return 'Аудио загружено ✅'
+        except Exception as e:
+            print('ERROR:', str(e))
+            return 'Не удалось получить URL адрес ❗'
