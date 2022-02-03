@@ -133,6 +133,3 @@ class DownloadAudioFromYouTube:
         except Exception as e:
             print('ERROR:', str(e))
             return 'Не удалось получить URL адрес ❗'
-
-# print(DownloadVideoFromYouTube('https://www.youtube.com/watch?v=vwT-IxAS_ss').get_info_video())
-# print(DownloadVideoFromYouTube('tfeedd').download_video_720p('720p'))
