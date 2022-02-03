@@ -6,12 +6,23 @@ class DownloadVideoFromYouTube:
     def __init__(self, url):
         self.url = url
 
-    def get_title_video(self):
+    def get_info_video(self):
+        info = {}
         try:
             url = self.url
             yt = YouTube(url)
+
             title = yt.title
-            return title
+            views = yt.views
+            author = yt.author
+
+            info['title'] = title
+            info['views'] = views
+            info['author'] = author
+
+            return f'📽 Видео: {info["title"]}\n' \
+                   f'👁 Просмотры: {info["views"]}\n' \
+                   f'🖍 Автор: {info["author"]}'
 
         except Exception as e:
             print('ERROR:', str(e))
@@ -26,43 +37,83 @@ class DownloadVideoFromYouTube:
             return 'Не удалось получить URL адрес ❗'
 
     def download_video_720p(self, quality):
-        url = self.url
-        yt = YouTube(url)
-        PATH = r'C:\Users\Admin\Desktop\Download_video'
+        try:
+            url = self.url
+            yt = YouTube(url)
 
-        if quality == '720p':
-            stream = yt.streams.get_by_itag(22)
-            stream.download(output_path=PATH)
-            return 'Видео загружено ✅'
-        else:
-            return 'Такого разрешения нет ❗'
+            PATH = r'C:\Users\Admin\Desktop\Download_video'
+
+            if quality == '720p':
+                stream = yt.streams.get_by_itag(22)
+                stream.download(output_path=PATH)
+                return self.url
+
+            else:
+                return 'Такого разрешения нет ❗'
+        except Exception as ex:
+
+            if str(ex) == 'regex_search: could not find match for (?:v=|\/)([0-9A-Za-z_-]{11}).*':
+                print('ERROR: ', ex)
+                return 'Неправильный ввод адреса видео'
+
+            if str(ex) == "'NoneType' object has no attribute 'download'":
+                print('ERROR: ', ex)
+                return 'Такого разрешения нет ❗'
+            else:
+                print(str(ex))
+                return 'Упс, возникла какая-то ошибка :('
 
     def download_video_360p(self, quality):
-        url = self.url
-        yt = YouTube(url)
-        PATH = r'C:\Users\Admin\Desktop\Download_video'
+        try:
+            url = self.url
+            yt = YouTube(url)
 
-        if quality == '360p':
-            stream = yt.streams.get_by_itag(18)
-            stream.download(output_path=PATH)
-            return 'Видео загружено ✅'
-        else:
-            return 'Такого разрешения нет ❗'
+            PATH = r'C:\Users\Admin\Desktop\Download_video'
+
+            if quality == '360p':
+                stream = yt.streams.get_by_itag(18)
+                stream.download(output_path=PATH)
+                return self.url
+            else:
+                return 'Такого разрешения нет ❗'
+        except Exception as ex:
+
+            if str(ex) == 'regex_search: could not find match for (?:v=|\/)([0-9A-Za-z_-]{11}).*':
+                print('ERROR: ', ex)
+                return 'Неправильный ввод адреса видео'
+
+            if str(ex) == "'NoneType' object has no attribute 'download'":
+                print('ERROR: ', ex)
+                return 'Такого разрешения нет ❗'
+            else:
+                print(str(ex))
+                return 'Упс, возникла какая-то ошибка :('
 
     def download_video_144p(self, quality):
-        url = self.url
-        yt = YouTube(url)
-        PATH = r'C:\Users\Admin\Desktop\Download_video'
+        try:
+            url = self.url
+            yt = YouTube(url)
 
-        if quality == '144p':
-            stream = yt.streams.get_by_itag(17)
-            stream.download(output_path=PATH)
-            return 'Видео загружено ✅'
-        else:
-            return 'Такого разрешения нет ❗'
+            PATH = r'C:\Users\Admin\Desktop\Download_video'
 
+            if quality == '144p':
+                stream = yt.streams.get_by_itag(17)
+                stream.download(output_path=PATH)
+                return self.url
+            else:
+                return 'Такого разрешения нет ❗'
+        except Exception as ex:
 
-url = 'https://www.youtube.com/watch?v=VKxOJ3DtsAU'
+            if str(ex) == 'regex_search: could not find match for (?:v=|\/)([0-9A-Za-z_-]{11}).*':
+                print('ERROR: ', ex)
+                return 'Неправильный ввод адреса видео'
+
+            if str(ex) == "'NoneType' object has no attribute 'download'":
+                print('ERROR: ', ex)
+                return 'Такого разрешения нет ❗'
+            else:
+                print(str(ex))
+                return 'Упс, возникла какая-то ошибка :('
 
 
 class DownloadAudioFromYouTube:
@@ -82,3 +133,6 @@ class DownloadAudioFromYouTube:
         except Exception as e:
             print('ERROR:', str(e))
             return 'Не удалось получить URL адрес ❗'
+
+# print(DownloadVideoFromYouTube('https://www.youtube.com/watch?v=vwT-IxAS_ss').get_info_video())
+# print(DownloadVideoFromYouTube('tfeedd').download_video_720p('720p'))
