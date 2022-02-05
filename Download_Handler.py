@@ -6,23 +6,17 @@ class DownloadVideoFromYouTube:
     def __init__(self, url):
         self.url = url
 
-    def get_info_video(self):
+    def get_title_video(self):
         info = {}
         try:
             url = self.url
             yt = YouTube(url)
 
             title = yt.title
-            views = yt.views
-            author = yt.author
 
             info['title'] = title
-            info['views'] = views
-            info['author'] = author
 
-            return f'📽 Видео: {info["title"]}\n' \
-                   f'👁 Просмотры: {info["views"]}\n' \
-                   f'🖍 Автор: {info["author"]}'
+            return f'📽 Видео: {info["title"]}'
 
         except Exception as e:
             print('ERROR:', str(e))
@@ -46,7 +40,7 @@ class DownloadVideoFromYouTube:
             if quality == '720p':
                 stream = yt.streams.get_by_itag(22)
                 stream.download(output_path=PATH)
-                return self.url
+                return 'Видео загружено'
 
             else:
                 return 'Такого разрешения нет ❗'

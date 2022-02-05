@@ -47,86 +47,90 @@ async def start_download_video(msg: types.Message, state: FSMContext):
 
     if quality == '720p':
 
+        upload_video = DownloadVideoFromYouTube(url).download_video_720p(save_quality)
         await bot.send_message(chat_id, 'Начинаю загрузку видео 🕐', reply_markup=ReplyKeyboardRemove())
 
-        upload_video = DownloadVideoFromYouTube(url).download_video_720p(save_quality)
-        info_video = DownloadVideoFromYouTube(url).get_info_video()
+        if upload_video == 'Видео загружено':
+            global video_title
 
-        if upload_video == url:
+            video_title = DownloadVideoFromYouTube(url).get_title_video()
 
-            text = 'Загрузите скаченный видеофайл сюда'
             await bot.send_message(chat_id, text='Видео загружено ✅')
-
-            await bot.send_message(chat_id, text=text)
+            await bot.send_message(chat_id, text='Загрузите скаченный видеофайл сюда')
 
             @dp.message_handler(content_types=['video'])
             async def download_video_in_telegram(msg: types.Message):
                 chat_id = msg.chat.id
                 video_id = msg.video.file_id
 
-                await bot.send_video(chat_id, video=video_id, caption=info_video)
+                await bot.send_video(chat_id, video=video_id, caption=video_title)
                 await bot.send_message(chat_id, 'Видео загружено ✅', reply_markup=menu_markup)
+
+            await state.finish()
 
         else:
             text = f'Видео не загружено ❌ \n' \
                    f'{upload_video}'
             await bot.send_message(chat_id, text=text, reply_markup=menu_markup)
+            await state.finish()
 
     if quality == '360p':
 
         await bot.send_message(chat_id, 'Начинаю загрузку видео 🕐', reply_markup=ReplyKeyboardRemove())
 
         upload_video = DownloadVideoFromYouTube(url).download_video_360p(save_quality)
-        info_video = DownloadVideoFromYouTube(url).get_info_video()
 
-        if upload_video == url:
+        if upload_video == 'Видео загружено':
 
-            text = 'Загрузите скаченный видеофайл сюда'
+            video_title = DownloadVideoFromYouTube(url).get_title_video()
+
             await bot.send_message(chat_id, text='Видео загружено ✅')
-
-            await bot.send_message(chat_id, text=text)
+            await bot.send_message(chat_id, text='Загрузите скаченный видеофайл сюда')
 
             @dp.message_handler(content_types=['video'])
             async def download_video_in_telegram(msg: types.Message):
                 chat_id = msg.chat.id
                 video_id = msg.video.file_id
 
-                await bot.send_video(chat_id, video=video_id, caption=info_video)
+                await bot.send_video(chat_id, video=video_id, caption=video_title)
                 await bot.send_message(chat_id, 'Видео загружено ✅', reply_markup=menu_markup)
+
+            await state.finish()
 
         else:
             text = f'Видео не загружено ❌ \n' \
                    f'{upload_video}'
             await bot.send_message(chat_id, text=text, reply_markup=menu_markup)
+            await state.finish()
 
     if quality == '144p':
 
         await bot.send_message(chat_id, 'Начинаю загрузку видео 🕐', reply_markup=ReplyKeyboardRemove())
 
         upload_video = DownloadVideoFromYouTube(url).download_video_144p(save_quality)
-        info_video = DownloadVideoFromYouTube(url).get_info_video()
 
-        if upload_video == url:
+        if upload_video == 'Видео загружено':
 
-            text = 'Загрузите скаченный видеофайл сюда'
+            video_title = DownloadVideoFromYouTube(url).get_title_video()
+
             await bot.send_message(chat_id, text='Видео загружено ✅')
-
-            await bot.send_message(chat_id, text=text, reply_markup=back_menu)
+            await bot.send_message(chat_id, text='Загрузите скаченный видеофайл сюда')
 
             @dp.message_handler(content_types=['video'])
             async def download_video_in_telegram(msg: types.Message):
                 chat_id = msg.chat.id
                 video_id = msg.video.file_id
 
-                await bot.send_video(chat_id, video=video_id, caption=info_video)
+                await bot.send_video(chat_id, video=video_id, caption=video_title)
                 await bot.send_message(chat_id, 'Видео загружено ✅', reply_markup=menu_markup)
+
+            await state.finish()
 
         else:
             text = f'Видео не загружено ❌ \n' \
                    f'{upload_video}'
             await bot.send_message(chat_id, text=text, reply_markup=menu_markup)
-
-    await state.finish()
+            await state.finish()
 
 
 @dp.message_handler(state="*", commands='Назад в меню 🔙')
