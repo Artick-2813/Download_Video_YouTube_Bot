@@ -8,7 +8,7 @@
  
 ## Используемые библиотеки  
 
-:pushpin: Aiogram  
+:pushpin: Aiogram  v2.12.1  
 :pushpin: Pytube Release v11.0.2. 
 
 ## Язык программирования  
