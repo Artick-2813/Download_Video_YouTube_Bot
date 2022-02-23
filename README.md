@@ -12,7 +12,8 @@
 :pushpin: Pytube Release v11.0.2. 
 
 ## Язык программирования  
-Python 3.8.3
+![Python](https://img.shields.io/badge/python-000000?style=for-the-badge&logo=python&logoColor=FFD644)
+
 
 
 
