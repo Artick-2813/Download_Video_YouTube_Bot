@@ -1,4 +1,7 @@
 from pytube import YouTube
+from moviepy.editor import AudioFileClip
+
+import os
 
 
 class DownloadVideoFromYouTube:
@@ -67,7 +70,7 @@ class DownloadVideoFromYouTube:
             if quality == '360p':
                 stream = yt.streams.get_by_itag(18)
                 stream.download(output_path=PATH)
-                return self.url
+                return 'Видео загружено'
             else:
                 return 'Такого разрешения нет ❗'
         except Exception as ex:
@@ -93,7 +96,7 @@ class DownloadVideoFromYouTube:
             if quality == '144p':
                 stream = yt.streams.get_by_itag(17)
                 stream.download(output_path=PATH)
-                return self.url
+                return 'Видео загружено'
             else:
                 return 'Такого разрешения нет ❗'
         except Exception as ex:
@@ -112,18 +115,28 @@ class DownloadVideoFromYouTube:
 
 class DownloadAudioFromYouTube:
 
-    def __init__(self, url):
-        self.url = url
+    def __init__(self, name_file):
+        self.name_file = name_file
 
     def download_audio(self):
         try:
-            url = self.url
-            yt = YouTube(url)
             PATH = r'C:\Users\Admin\Desktop\Download_video'
 
-            audio = yt.streams.filter(only_audio=True)
-            audio[0].download(output_path=PATH)
-            return 'Аудио загружено ✅'
-        except Exception as e:
-            print('ERROR:', str(e))
-            return 'Не удалось получить URL адрес ❗'
+            file = self.name_file
+
+            new_file = file.split('.')[0]
+
+            full_path = os.path.join(PATH, file)
+            print(full_path)
+
+            audio = AudioFileClip(full_path)
+
+            end_path = os.path.join(PATH, new_file + '.mp3')
+
+            audio.write_audiofile(end_path)
+
+            return 'Загрузка завершена, пожалуйста загрузите аудиофайл'
+        except Exception as ex:
+            print(ex)
+            return 'К сожалению, не удалось загрузить аудиофайл'
+
