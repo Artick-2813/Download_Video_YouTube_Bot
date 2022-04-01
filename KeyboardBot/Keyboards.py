@@ -4,7 +4,12 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 def menu_markup():
     btn_download_video_url = KeyboardButton('Скачать видео по URL 📽')
-    menu = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(btn_download_video_url)
+    btn_download_audio_url = KeyboardButton('Загрузить аудиофайл 📀')
+    menu = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
+
+        btn_download_video_url,
+        btn_download_audio_url
+                                                                     )
 
     return menu
 
