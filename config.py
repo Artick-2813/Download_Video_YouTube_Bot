@@ -1,1 +1,0 @@
-TOKEN = 'My Token'
