@@ -9,7 +9,7 @@ def menu_markup():
 
         btn_download_video_url,
         btn_download_audio_url
-                                                                     )
+    )
 
     return menu
 
